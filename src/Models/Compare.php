@@ -6,54 +6,55 @@ use Illuminate\Support\Facades\Input;
 
 class Compare
 {
-    public function addCompare($id, $model = "Product")
+    /**
+     * add to compare
+     *
+     * @param  integer $idProduct
+     * @param string $model
+     *
+     * @return bool
+     */
+    public function addCompare($idProduct, $model = "Product")
     {
         $compareArray = unserialize(Cookie::get("compare"));
-        $model = \$model;
 
         if (is_array($compareArray) && isset($compareArray[0])) {
 
             $firstElement = $compareArray[0];
             $firstElementObject = $model::find($firstElement);
-            $newElementObject = $model::find($id);
+            $newElementObject = $model::find($idProduct);
 
             if ($firstElementObject->id_category == $newElementObject->id_category) {
                 array_unshift($compareArray, $idProduct);
             } else {
-                return Response::json(
-                    array('status' => 'error',
-                          'message' => "Сравнивать можно товары с одной категории")
-                );
+                return false;
             }
 
         } else {
-            $compareArray[] = $id;
+            $compareArray[] = $idProduct;
         }
 
         $compareArray = array_unique($compareArray);
         Cookie::queue("compare", serialize($compareArray), 100000);
 
-        return Response::json(
-            array('status' => 'success',
-                'message' => "Товар успешно добавлен в сравнение")
-        );
+        return true;
     }
 
-    public function doRemoveCompare()
+    /**
+     * delete product
+     *
+     * @param $idProduct
+     *
+     * @return bool
+     */
+    public function doRemoveCompare($idProduct)
     {
-        $idProduct = Input::get("id");
-        if (is_numeric($idProduct)) {
+        $compareArray = unserialize(Cookie::get("compare"));
+        $keyProduct = array_search($idProduct, $compareArray);
+        unset($compareArray[$keyProduct]);
+        Cookie::queue("compare", serialize($compareArray), 100000);
 
-            $compareArray = unserialize(Cookie::get("compare"));
-            $keyProduct = array_search($idProduct, $compareArray);
-            unset($compareArray[$keyProduct]);
-            Cookie::queue("compare", serialize($compareArray), 100000);
-
-            return Response::json(
-                array('status' => 'success',
-                    'message' => "Товар успешно удален из сравнения")
-            );
-        }
+        return true;
     }
 
     /**
@@ -90,4 +91,22 @@ class Compare
 
         return count($compareArray);
     }
+
+    /**
+     * return all products in compare
+     *
+     * @param string $model
+     *
+     * @return bool|list objects
+     */
+    public function getProducts($model = "Product")
+    {
+        $compareArray = unserialize(Cookie::get("compare"));
+        if (!is_array($compareArray) || count($compareArray) == 0) {
+            return false;
+        }
+
+        return $model::whereIn("id", $compareArray)->get();
+    }
+
 }

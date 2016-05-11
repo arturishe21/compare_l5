@@ -12,12 +12,15 @@ class CompareController extends Controller
     {
         $idProduct = Input::get("id");
         if (is_numeric($idProduct)) {
-            Compare::addCompare($idProduct, $model = "Product");
+           return Compare::addCompare($idProduct, $model = "Product");
         }
     }
 
     public function doRemoveCompare()
     {
-
+        $idProduct = Input::get("id");
+        if (is_numeric($idProduct)) {
+           return Compare::doRemoveCompare($idProduct);
+        }
     }
 }
