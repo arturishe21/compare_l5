@@ -1,0 +1,20 @@
+{
+  "name": "vis/compare_l5",
+  "description": "Compare for L5",
+  "authors": [
+    {
+      "name": "vis",
+      "email": "artur@vis-design.com"
+    }
+  ],
+  "autoload": {
+    "classmap": [
+      "src/Models",
+      "src/Http/Controllers",
+      "src/Facades"
+    ],
+    "psr-4": {
+      "Vis\\Compare\\": "src/"
+    }
+  }
+}
