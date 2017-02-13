@@ -41,9 +41,7 @@ class CompareServiceProvider extends ServiceProvider
      */
     public function register()
     {
-       
-        $this->app['compare'] = $this->app->share(function($app)
-        {
+        $this->app->singleton('compare', function () {
             return new \Vis\Compare\Compare;
         });
 
