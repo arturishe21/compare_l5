@@ -1,9 +1,7 @@
 <?php namespace Vis\Compare;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
-use Symfony\Component\Finder\Finder;
 
 class CompareServiceProvider extends ServiceProvider
 {
@@ -51,11 +49,4 @@ class CompareServiceProvider extends ServiceProvider
             $loader->alias('Compare', 'Vis\Compare\Facades\Compare');
         });
     }
-
-    public function provides()
-    {
-    }
 }
-
-
-

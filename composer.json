@@ -1,6 +1,7 @@
 {
   "name": "vis/compare_l5",
   "description": "Compare for L5",
+  "license": "proprietary",
   "authors": [
     {
       "name": "vis",

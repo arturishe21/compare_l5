@@ -2,8 +2,6 @@
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Input;
-use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-use Illuminate\Support\Facades\View;
 use Vis\Compare\Facades\Compare;
 
 class CompareController extends Controller
@@ -12,7 +10,7 @@ class CompareController extends Controller
     {
         $idProduct = Input::get("id");
         if (is_numeric($idProduct)) {
-           return Compare::addCompare($idProduct, $model = "Product");
+           return Compare::addCompare($idProduct, "Product");
         }
     }
 

@@ -1,8 +1,7 @@
 <?php  namespace Vis\Compare;
 
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Compare
 {
@@ -14,7 +13,7 @@ class Compare
      *
      * @return bool
      */
-    public function addCompare($idProduct, $model = "Product")
+    public function addCompare($idProduct, Eloquent $model = "Product")
     {
         $compareArray = unserialize(Cookie::get("compare"));
 
@@ -99,7 +98,7 @@ class Compare
      *
      * @return bool|list objects
      */
-    public function getProducts($model = "Product")
+    public function getProducts(Eloquent $model = "Product")
     {
         $compareArray = unserialize(Cookie::get("compare"));
         if (!is_array($compareArray) || count($compareArray) == 0) {
@@ -108,5 +107,4 @@ class Compare
 
         return $model::whereIn("id", $compareArray)->get();
     }
-
 }
