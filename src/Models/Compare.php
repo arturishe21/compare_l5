@@ -13,7 +13,7 @@ class Compare
      *
      * @return bool
      */
-    public function addCompare($idProduct, Eloquent $model = "Product")
+    public function addCompare($idProduct, $model = "Product")
     {
         $compareArray = unserialize(Cookie::get("compare"));
 
@@ -98,7 +98,7 @@ class Compare
      *
      * @return bool|list objects
      */
-    public function getProducts(Eloquent $model = "Product")
+    public function getProducts($model = "Product")
     {
         $compareArray = unserialize(Cookie::get("compare"));
         if (!is_array($compareArray) || count($compareArray) == 0) {
